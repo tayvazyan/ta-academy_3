@@ -3,5 +3,5 @@
 - Create new document in https://docs.google.com/document and past the copied content
 - Make changes in your document
 - Click on "Share" and select following access params: "Anyone with link" and "commenter". Copy the link.
-- Create a new file with any name (e.g. "myHomework1") and .md extension in manual/lesson_1 directory;
+- Create a new file with any name (e.g. "myHomework1") and .md extension in manual/lesson_1/homework_1 directory;
 - Past the copied link in your file.
