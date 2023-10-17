@@ -39,7 +39,7 @@ git config --global user.name "FIRST_NAME LAST_NAME"
 ### Github workflow:
 ____________________________
 
-Create a fork from the root repository [ta-academy_2](https://github.com/optimaxdev/ta-academy_3)
+Create a fork from the root repository [ta-academy_3](https://github.com/optimaxdev/ta-academy_3)
 
 ![fork.png](images%2Ffork.png)
 
