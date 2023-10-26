@@ -1,6 +1,10 @@
 ### Homework 4
 - Update your local branch 'main';
 - Create new branch (e.g., homework-4);
-- Go to /js/lesson4 directory and run the command 'yarn';
-- Go to [homework_4](https://docs.google.com/document/d/1s-5FHl_A-P6G5l24sbbc7TSJ8nYc45NaU3_IHynXZsU/edit?usp=sharing);
-- Do a tasks from the document;
+- Go to js/lesson_4 directory and run the command 'yarn';
+- Do the tasks:
+  1. Fix Person type in file task.ts;
+  2. Fix any types in the 'getPersonNames' function in file task.ts;
+  3. Import 'personNames' constant into App.tsx;
+  4. Output the value of the constant in the <p> tag, by analogy with the existing examples in App.tsx.
+- To test yourself, use the application launch command 'yarn start' from js/lesson_4.
