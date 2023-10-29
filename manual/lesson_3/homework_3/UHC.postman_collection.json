@@ -1,0 +1,520 @@
+{
+	"info": {
+		"_postman_id": "da29e44a-08df-4dab-97aa-70c2cf5483f3",
+		"name": "UHC",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "03f7ec22-eb59-4e13-ad10-c11906699764",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"postman.setEnvironmentVariable(\"token\", jsonData.token.access_token);",
+							"postman.setEnvironmentVariable(\"userId\", jsonData.customer.id);",
+							"postman.setEnvironmentVariable(\"randomEmail\",jsonData.customer.email);",
+							"",
+							"",
+							"pm.test(\"Your Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Status code name has string 'Created'\", function () {",
+							"    pm.response.to.have.status(\"Created\");",
+							"});",
+							"",
+							"pm.test(\"Test firstname, lastname, email value\", function () {",
+							"    pm.expect(jsonData.customer.firstname).to.eql(\"Ani\");",
+							"    pm.expect(jsonData.customer.lastname).to.eql(\"Aramyan\");",
+							"    pm.expect(jsonData.customer.email).to.eql((pm.environment.get(\"randomEmail\")));",
+							"});",
+							"",
+							"pm.test(\"Test data type of the response\", () => {",
+							"  pm.expect(jsonData).to.be.an(\"object\");",
+							"  pm.expect(jsonData.customer.email).to.be.a(\"string\");",
+							"  pm.expect(jsonData.customer.firstname).to.be.a(\"string\");",
+							"  pm.expect(jsonData.customer.lastname).to.be.a(\"string\");",
+							"  pm.expect(jsonData.customer.group.title).to.be.a(\"string\");",
+							"  pm.expect(jsonData.customer.uvp.planId).to.be.a(\"number\");",
+							"  pm.expect(jsonData.customer.uvp.company.title).to.be.a(\"string\");",
+							"  pm.expect(jsonData.token.token_type).to.be.a(\"string\");",
+							"  pm.expect(jsonData.token.expires_in).to.be.a(\"number\");",
+							"  pm.expect(jsonData.token.access_token).to.be.a(\"string\");",
+							"  pm.expect(jsonData.token.refresh_token).to.be.a(\"string\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "98207173-a80c-4a09-a36e-b2baf1e2b989",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"firstname\": \"Ani\",\n    \"lastname\": \"Aramyan\",\n    \"email\": \"{{$randomEmail}}\",\n    \"password\": \"Testtest1234\",\n    \"registrationMethod\": \"default\",\n    \"websiteId\": 1,\n    \"clientId\": \"memberId\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{url}}/ms/customer/registration",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"ms",
+						"customer",
+						"registration"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create User Duplicate",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1f9bf7a1-cba4-4311-bed9-5bb3967391ba",
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"pm.test(\"Status code name has string 'Bad Request'\", function () {",
+							"    pm.response.to.have.status(\"Bad Request\");",
+							"});",
+							"",
+							"var jsonData = pm.response.json();",
+							"pm.test(\"Test message - \" + jsonData.message, function () {",
+							"    pm.expect(jsonData.message).to.eql(\"There is an existing account for this email address\");",
+							"});",
+							"",
+							"pm.test(\"Required params are message, code\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"message\",\"code\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiJtZW1iZXJJZCIsIm5iZiI6MTY5ODE3MTQ3NSwiZXhwIjoxNjk4MjU3ODc1LjY1NzExLCJzdWIiOiI1MjM4NDk0Iiwid2Vic2l0ZSI6NCwiY29tcGFueSI6MjYsImV4dGxhYiI6bnVsbCwiYmlydGhkYXkiOm51bGwsImZhbWlseUlkIjoibW1AbW0uNTQiLCJhZG1pbiI6bnVsbCwic2NvcGVzIjpbIlJPTEVfVVNFUiIsIlJPTEVfQ1VTVE9NRVIiLCJST0xFX01FTUJFUiJdfQ.DC_qfBpWLuPcktm2s3Gb_b8FGwI0bGcNDgTCfcX2_Fkl8ctIKDsHlDUJzFGdTi9gT6mXqg8RDVAO6jJ9F_UADG_-wOtgcq6dIwQGhB6Cots2Na9njNA9hVcR1Zh-c2TwSFo9HvsXBv1C9AFNPfyQTbV8SWODzOveRdz7GOVfvYBzpuOC6JDZ_9t33z33U1pHo4FeV7yO6lkH75R2MACx3VoqKm3bibHhW8ZRZorokcVpeaxeGl_XNr5FRmy6XLmxRDquPW_M6WssKMWqWXvHergBCnkQIZd5a-zeMBoWl6_4-GW4lvWBlMVzOmRbp59WKNfFmk8QQMod4wJjsUsK1w",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstname\": \"Ani\",\r\n    \"lastname\": \"Aramyan\",\r\n    \"email\": \"test@test123.am\",\r\n    \"password\": \"Testtest1234\",\r\n    \"registrationMethod\": \"default\",\r\n    \"websiteId\": 1,\r\n    \"clientId\": \"memberId\"\r\n}"
+				},
+				"url": {
+					"raw": "{{url}}/ms/customer/registration",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"ms",
+						"customer",
+						"registration"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Blank User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "898d9292-b2ad-4b1d-8dad-712f0d50482b",
+						"exec": [
+							"pm.test(\"Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"pm.test(\"Status code name has string 'Bad Request'\", function () {",
+							"    pm.response.to.have.status(\"Bad Request\");",
+							"});",
+							"",
+							"pm.test(\"Test error message\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"This value should not be blank.\");",
+							"});",
+							"",
+							"pm.test(\"Required params are message, code\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"message\",\"code\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstname\": \"\",\r\n    \"lastname\": \"\",\r\n    \"email\": \"\",\r\n    \"password\": \"Testtest1234\",\r\n    \"registrationMethod\": \"default\",\r\n    \"websiteId\": 6,\r\n    \"clientId\": \"memberId\"\r\n}"
+				},
+				"url": {
+					"raw": "{{url}}/ms/customer/registration",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"ms",
+						"customer",
+						"registration"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create User with Invalid Data",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b7e48ad9-710d-4401-8d49-0d7d26307d1b",
+						"exec": [
+							"pm.test(\"Your Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"pm.test(\"Status code name has string 'Bad Request'\", function () {",
+							"    pm.response.to.have.status(\"Bad Request\");",
+							"});",
+							"",
+							"let jsonData = pm.response.json();",
+							"pm.test(\"Test message is - \" + jsonData.message, function () {",
+							"    pm.expect(jsonData.message).to.eql(\"Invalid Content\");",
+							"});",
+							"",
+							"pm.test(\"Required params are message, code\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"message\",\"code\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstname\": 123,\r\n    \"lastname\": true,\r\n    \"email\": $%^^&&,\r\n    \"password\": \"Testtest1234\",\r\n    \"registrationMethod\": \"default\",\r\n    \"websiteId\": 1,\r\n    \"clientId\": \"memberId\"\r\n}"
+				},
+				"url": {
+					"raw": "{{url}}/ms/customer/registration",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"ms",
+						"customer",
+						"registration"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create User with Invalid Password",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9496b582-7e81-4e92-a768-0fc6756abc16",
+						"exec": [
+							"pm.test(\"Your Status code is 400'\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"pm.test(\"Status code name has string 'Bad Request'\", function () {",
+							"    pm.response.to.have.status(\"Bad Request\");",
+							"});",
+							"",
+							"let jsonData = pm.response.json();",
+							"pm.test(\"Test message is - \" + jsonData.message, function () {",
+							"    pm.expect(jsonData.message).to.eql(\"Your password must be between 8 and 20 characters long and should include at least 1 lowercase character, 1 uppercase character, and 1 numerical digit.\");",
+							"});",
+							"",
+							"pm.test(\"Required params are message, code\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"message\",\"code\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstname\": \"Ani\",\r\n    \"lastname\": \"Aramyan\",\r\n    \"email\": \"{{$randomEmail}}\",\r\n    \"password\": \"tt\",\r\n    \"registrationMethod\": \"default\",\r\n    \"websiteId\": 1,\r\n    \"clientId\": \"memberId\"\r\n}"
+				},
+				"url": {
+					"raw": "{{url}}/ms/customer/registration",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"ms",
+						"customer",
+						"registration"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create User with Invalid Email (without '@' character)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "03f7ec22-eb59-4e13-ad10-c11906699764",
+						"exec": [
+							"pm.test(\"Your Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"pm.test(\"Status code name has string 'Bad Request'\", function () {",
+							"    pm.response.to.have.status(\"Bad Request\");",
+							"});",
+							"",
+							"let jsonData = pm.response.json();",
+							"pm.test(\"Test message is - \" + jsonData.message, function () {",
+							"    pm.expect(jsonData.message).to.eql(\"This value is not a valid email address. \");",
+							"});",
+							"",
+							"pm.test(\"Required params are message, code\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"message\",\"code\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstname\": \"Ani\",\r\n    \"lastname\": \"Aramyan\",\r\n    \"email\": \"testtest.am\",\r\n    \"password\": \"Testtest1234\",\r\n    \"registrationMethod\": \"default\",\r\n    \"websiteId\": 1,\r\n    \"clientId\": \"memberId\"\r\n}"
+				},
+				"url": {
+					"raw": "{{url}}/ms/customer/registration",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"ms",
+						"customer",
+						"registration"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create User with Invalid Email (without '.' character)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "03f7ec22-eb59-4e13-ad10-c11906699764",
+						"exec": [
+							"pm.test(\"Your Status code is 400\", function () {",
+							"    pm.response.to.have.status(400);",
+							"});",
+							"",
+							"pm.test(\"Status code name has string 'Bad Request'\", function () {",
+							"    pm.response.to.have.status(\"Bad Request\");",
+							"});",
+							"",
+							"let jsonData = pm.response.json();",
+							"pm.test(\"Test message is - \" + jsonData.message, function () {",
+							"    pm.expect(jsonData.message).to.eql(\"This value is not a valid email address. \");",
+							"});",
+							"",
+							"pm.test(\"Required params are message, code\", function () {",
+							"    pm.expect(pm.response.text()).to.include(\"message\",\"code\");",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/x-www-form-urlencoded"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"firstname\": \"Ani\",\r\n    \"lastname\": \"Aramyan\",\r\n    \"email\": \"test@testam\",\r\n    \"password\": \"Testtest1234\",\r\n    \"registrationMethod\": \"default\",\r\n    \"websiteId\": 1,\r\n    \"clientId\": \"memberId\"\r\n}"
+				},
+				"url": {
+					"raw": "{{url}}/ms/customer/registration",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"ms",
+						"customer",
+						"registration"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "03f7ec22-eb59-4e13-ad10-c11906699764",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Status code name has string 'OK'\", function () {",
+							"    pm.response.to.have.status(\"OK\");",
+							"});",
+							"",
+							"pm.test(\"Test -  get user's 'id', 'firstname', 'lastname', 'email' values\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.id).to.eql(parseInt(pm.environment.get(\"userId\")));",
+							"    pm.expect(jsonData.firstname).to.eql(\"Ani\");",
+							"    pm.expect(jsonData.lastname).to.eql(\"Aramyan\");",
+							"    pm.expect(jsonData.email).to.eql((pm.environment.get(\"randomEmail\")));",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{url}}/ms/customer/me",
+					"host": [
+						"{{url}}"
+					],
+					"path": [
+						"ms",
+						"customer",
+						"me"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
