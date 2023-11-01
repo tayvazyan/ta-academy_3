@@ -1,6 +1,6 @@
 import type { Page } from '@playwright/test';
-import { HomePage } from '@Pages/homePage';
-import { CategoryPage } from '@Pages/categoryPage';
+import { HomePage } from '@Components/homePage/homePage';
+import { CategoryPage } from '@Components/categoryPage/categoryPage';
 import { test as base, expect } from '@playwright/test';
 
 type Options = {
