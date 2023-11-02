@@ -7,6 +7,7 @@ module.exports = {
         project: ['./tsconfig.json'],
     },
     rules: {
+        'prettier/prettier':0,
         '@typescript-eslint/explicit-member-accessibility': 'error',
         '@typescript-eslint/consistent-type-imports': 'error',
         '@typescript-eslint/await-thenable': 'error',
