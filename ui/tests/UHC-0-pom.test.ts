@@ -1,5 +1,6 @@
 import { expect, test } from '@Test';
 import { CategoryUri } from '@Components/categoryPage/categoryPage';
+import { timeout } from '@Utils/timeout';
 
 test.describe('UHC-0-pom', () => {
     test('The title of test will be here...', async ({ page, homePage, categoryPage }) => {
@@ -20,12 +21,16 @@ test.describe('UHC-0-pom', () => {
             await expect(page.locator('//div[@class="rc-dialog-content"]')).toBeHidden();
         });
 
-        await test.step('Test-step 1-3 | ', async () => {
+        await test.step('Test-step 1-3 | Step description', async () => {
             const navigation = homePage.Header.BottomSide.CategoryNavigation;
-
             expect(await navigation.isVisibleLinks()).toBe(true);
 
             await categoryPage.open(CategoryUri.Eyeglasses);
+
+            const [product] = await categoryPage.Grid.getItems();
+            await product.click();
+
+            await timeout(10000);
         });
     });
 });
