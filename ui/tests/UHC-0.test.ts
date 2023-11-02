@@ -1,11 +1,11 @@
+import type { Options } from '@Test';
 import { test, expect } from '@Test';
 
 test.describe('UHC-0 (test ID)', () => {
     test('Check search results on category page (test title)', async ({
-        browser,
         page,
         baseURL,
-    }) => {
+    }: Options) => {
         await page.goto(baseURL as string, { waitUntil: 'domcontentloaded' });
 
         const pageTitle = await page.title();
