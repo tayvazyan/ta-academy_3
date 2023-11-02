@@ -1,5 +1,4 @@
 import { Container } from '@Core/container';
-import type { Locator } from '@playwright/test';
 import { Grid } from '@Components/categoryPage/categoryPage/grid';
 
 export enum CategoryUri {
