@@ -14,10 +14,6 @@ export class Grid extends Component {
             timeout: 60000,
         });
 
-        if (!locatorsList) {
-            throw new Error('Items not found');
-        }
-
         return locatorsList;
     }
 
