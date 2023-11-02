@@ -15,13 +15,10 @@ export class CategoryPage extends Container {
 
     public async open(url: CategoryUri = CategoryUri.Eyeglasses): Promise<void> {
         await Promise.all([
-            this.page.goto(url, { waitUntil: 'domcontentloaded' }),
-            this.page.waitForURL(url)
+            this.page.goto(url),
+            this.page.waitForURL(url),
+            this.page.waitForLoadState('load'),
     ]);
-    }
-
-    public async scrollProducts(): Promise<void> {
-        await this.LOCATORS.footer.scrollIntoViewIfNeeded();
     }
 
     public async getProducts(): Promise<Locator[]> {

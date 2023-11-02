@@ -1,6 +1,5 @@
 import { expect, test } from '@Test';
 import { CategoryUri } from '@Components/categoryPage/categoryPage';
-import {timeout} from "@Utils/timeout";
 
 test.describe('UHC-0-pom', () => {
     test('The title of test will be here...', async ({ page, homePage, categoryPage }) => {

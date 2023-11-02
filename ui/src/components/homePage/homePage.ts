@@ -1,5 +1,5 @@
 import { Container } from '@Core/container';
-import { Header } from '@Components/categoryPage/categoryPage/header';
+import { Header } from '@Components/homePage/homePage/header';
 
 export class HomePage extends Container {
     protected LOCATORS = {

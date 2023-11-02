@@ -1,5 +1,5 @@
 import { Component } from '@Core/component';
-import { CategoryNavigation } from '@Components/categoryPage/categoryPage/header/bottomSide/categoryNavigation';
+import { CategoryNavigation } from '@Components/homePage/homePage/header/bottomSide/categoryNavigation';
 
 export class BottomSide extends Component {
     protected LOCATORS = {
