@@ -1,8 +1,7 @@
 import { Mock } from '@Core/mock';
 import { CartPage } from '@Components/cartPage/cartPage';
 
-describe('Check header title', () => {
-    const mock = Mock.getInstance();
+describe('UHC-0-int', () => {
     let cartPage: CartPage;
 
     beforeAll(async () => {
@@ -13,7 +12,7 @@ describe('Check header title', () => {
         cartPage.destroy();
     });
 
-    test('Title should be in page', async () => {
+    test('Check header title', async () => {
         await cartPage.fulfill();
         const title = await cartPage.getHeaderTitle();
 
