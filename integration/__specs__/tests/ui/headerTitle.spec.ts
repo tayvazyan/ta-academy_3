@@ -1,14 +1,12 @@
 import { Mock } from '@Core/mock';
-import { GetCartItemsMock } from "@Mocks/api/mockio/v1/id/get";
 import { CartPage } from '@Components/cartPage/cartPage';
 
 describe('Check header title', () => {
     const mock = Mock.getInstance();
     let cartPage: CartPage;
 
-    beforeAll(() => {
+    beforeAll(async () => {
         cartPage = new CartPage();
-        mock.addMocks(new GetCartItemsMock());
     });
 
     afterAll(() => {
@@ -21,6 +19,6 @@ describe('Check header title', () => {
 
         expect(title).toStrictEqual('Shopping cart');
 
-        await cartPage.ModalAddItem();
+        await cartPage.OpenModalAddItem();
     });
 });
